@@ -1,10 +1,13 @@
-Campus Sharing App
-Compilation et exécution
+# Campus Sharing App
+
+## Compilation et exécution
 
 Pour compiler et exécuter l’application, utilisez les commandes suivantes dans le terminal :
 
+```bash
 javac *.java
 java CampusSharingApp
+
 
 Utilisation de l’application
 
