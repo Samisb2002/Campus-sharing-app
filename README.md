@@ -8,7 +8,7 @@ To compile and run the application, use:
 javac *.java
 java CampusSharingApp
 
-
+```
 
 ## Utilisation de l’application
 
