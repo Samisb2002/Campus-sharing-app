@@ -1,29 +1,61 @@
 
-import java.io.*;
-import java.util.*;
-
-/**
- * 
- */
 public class Donation extends Item {
 
-    /**
-     * Default constructor
-     */
-    public Donation() {
+    private String pickupLocation; 
+
+    public Donation(int productId, AuthenticatedStudent owner, String productName, String productDesc, int quantity, String pickupLocation) {
+        super(productId, owner, productName, productDesc, quantity); 
+        if (pickupLocation == null || pickupLocation.isEmpty()) {
+            throw new IllegalArgumentException("Pickup location must not be null or empty.");
+        }
+        this.pickupLocation = pickupLocation;
     }
 
-    /**
-     * 
-     */
-    public String pickupLocation;
-
-    /**
-     * @return
-     */
     public String getPickupLocation() {
-        // TODO implement here
-        return "";
+        return pickupLocation;
     }
 
+    public void setPickupLocation(String pickupLocation) {
+        if (pickupLocation == null || pickupLocation.isEmpty()) {
+            throw new IllegalArgumentException("Pickup location must not be null or empty.");
+        }
+        this.pickupLocation = pickupLocation;
+    }
+
+
+    public void updateDonationDetails(String newProductName, String newProductDesc, int newQuantity, String newPickupLocation) {
+        if (newProductName != null && !newProductName.isEmpty()) {
+            this.productName = newProductName; 
+        }
+        if (newProductDesc != null && !newProductDesc.isEmpty()) {
+            this.productDesc = newProductDesc; 
+        }
+        if (newQuantity >= 0) {
+            this.setQuantity(newQuantity);
+        }
+        if (newPickupLocation != null && !newPickupLocation.isEmpty()) {
+            this.pickupLocation = newPickupLocation;
+        }
+    }
+
+    
+    @Override
+    public void viewDetails() {
+        System.out.println("Donation Details:");
+        System.out.println("Product ID: " + this.productId); 
+        System.out.println("Owner: " + this.owner.getUserName()); 
+        System.out.println("Product Name: " + this.productName); 
+        System.out.println("Description: " + this.productDesc);
+        System.out.println("Posted Date: " + this.postedDate);
+        System.out.println("Quantity Available: " + this.getQuantity());
+        System.out.println("Pickup Location: " + this.pickupLocation);
+        System.out.println("Availability: " + (isAvailable() ? "In Stock" : "Out of Stock"));
+    }
+
+    @Override
+    public String toString() {
+        return "Donation [productId=" + productId + ", owner=" + owner.getUserName() + ", productName=" + productName
+                + ", productDesc=" + productDesc + ", postedDate=" + postedDate + ", quantity=" + getQuantity()
+                + ", pickupLocation=" + pickupLocation + "]";
+    }
 }
