@@ -3,6 +3,7 @@ import java.time.LocalDate;
 public class Service extends Product {
 
     private int duration; 
+    private Boolean isAvailable; 
 
     public Service(int productId, AuthenticatedStudent owner, String productName, String productDesc, LocalDate postedDate, int duration) {
         super(productId, owner, productName, productDesc);
@@ -10,6 +11,7 @@ public class Service extends Product {
             throw new IllegalArgumentException("Duration must be positive.");
         }
         this.duration = duration;
+        this.isAvailable = true;
     }
 
     public int getDuration() {
@@ -21,6 +23,18 @@ public class Service extends Product {
             throw new IllegalArgumentException("Duration must be positive.");
         }
         this.duration = duration;
+    }
+    
+    public boolean getAvailibility(){
+        return this.isAvailable;
+    }
+    public void changeAvailibility(){
+        if(this.isAvailable){
+            this.isAvailable = false;
+        }
+        else{
+            this.isAvailable = true;
+        }
     }
 
     // Updates service details
