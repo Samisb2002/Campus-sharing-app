@@ -23,20 +23,20 @@ public class ProductCatalog implements Subject {
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) { 
-            observer.update(products);
+            observer.update();
         }
     }
 
 
     public void addProduct(Product product) {
         products.add(product);
-        System.out.println("Product ajouté : " + product.getProductName());
+        System.out.println("Product ajouté : " + product.getName());
         notifyObservers();
     }
 
     public void removeProduct(Product product) {
         products.remove(product);
-        System.out.println("Product supprimé : " + product.getProductName());
+        System.out.println("Product supprimé : " + product.getName());
         notifyObservers();
     }
 
@@ -51,7 +51,7 @@ public class ProductCatalog implements Subject {
     public List<Product> filterByCategory(String category) {
         List<Product> filteredProducts = new ArrayList<>();
         for (Product product : products) {
-            if (product.getProductDescription().contains(category)) {
+            if (product.getDescription().contains(category)) {
                 filteredProducts.add(product);
             }
         }
@@ -67,3 +67,4 @@ public class ProductCatalog implements Subject {
         return null;
     }
 }
+
