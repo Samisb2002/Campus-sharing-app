@@ -1,82 +1,69 @@
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.*;
-import java.util.*;
-
-/**
- * 
- */
 public class ProductCatalog implements Subject {
+    private List<Product> products;
+    private List<Observer> observers;
 
-    /**
-     * Default constructor
-     */
     public ProductCatalog() {
+        products = new ArrayList<>();
+        observers = new ArrayList<>();
     }
 
-    /**
-     * 
-     */
-    public List<Product> products;
-
-    /**
-     * 
-     */
-    public List<Observer> observers;
-
-    /**
-     * 
-     */
-    public void viewAvailableProducts() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void filterByCategory() {
-        // TODO implement here
-    }
-
-    /**
-     * @param product
-     */
-    public void addProduct(Product product) {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void removeProduct() {
-        // TODO implement here
-    }
-
-    /**
-     * @param productId
-     */
-    public void getProductById(integer productId) {
-        // TODO implement here
-    }
-
-    /**
-     * @param observer
-     */
+    @Override
     public void registerObserver(Observer observer) {
-        // TODO implement Subject.registerObserver() here
+        observers.add(observer);
     }
 
-    /**
-     * @param observer
-     */
+    @Override
     public void removeObserver(Observer observer) {
-        // TODO implement Subject.removeObserver() here
+        observers.remove(observer);
     }
 
-    /**
-     * 
-     */
-    public void notifyObserver() {
-        // TODO implement Subject.notifyObserver() here
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) { 
+            observer.update(products);
+        }
     }
 
+
+    public void addProduct(Product product) {
+        products.add(product);
+        System.out.println("Product ajouté : " + product.getProductName());
+        notifyObservers();
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        System.out.println("Product supprimé : " + product.getProductName());
+        notifyObservers();
+    }
+
+
+    public void viewAvailableProducts() {
+        System.out.println("Liste des produits disponibles :");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+    }
+
+    public List<Product> filterByCategory(String category) {
+        List<Product> filteredProducts = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getProductDescription().contains(category)) {
+                filteredProducts.add(product);
+            }
+        }
+        return filteredProducts;
+    }
+
+    public Product getProductById(int productId) {
+        for (Product product : products) {
+            if (product.getProductId() == productId) {
+                return product;
+            }
+        }
+        return null;
+    }
 }
