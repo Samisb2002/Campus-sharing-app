@@ -58,7 +58,7 @@ public class ProductCatalog implements Subject {
         return filteredProducts;
     }
 
-    public Product getProductId(int productId) {
+    public Product getProductById(int productId) {
         for (Product product : products) {
             if (product.getProductId() == productId) {
                 return product;
@@ -67,3 +67,4 @@ public class ProductCatalog implements Subject {
         return null;
     }
 }
+
