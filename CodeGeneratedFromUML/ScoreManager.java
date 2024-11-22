@@ -1,45 +1,21 @@
-
-import java.io.*;
-import java.util.*;
-
-/**
- * 
- */
 public class ScoreManager {
-
-    /**
-     * Default constructor
-     */
-    public ScoreManager() {
-    }
-
-    /**
-     * 
-     */
     public Integer bananaScore;
 
-    /**
-     * @return
-     */
+    public ScoreManager() {
+        this.bananaScore = 5;
+    }
+
+
     public Integer getScore() {
-        // TODO implement here
-        return null;
+        return bananaScore;
     }
 
-    /**
-     * @return
-     */
-    public Integer setScore() {
-        // TODO implement here
-        return null;
+    public Integer setScore(Integer Score) {
+        return this.bananaScore = Score;
     }
 
-    /**
-     * @return
-     */
     public void IncrementScore() {
-        // TODO implement here
-        return null;
+        this.bananaScore++;
     }
 
 }

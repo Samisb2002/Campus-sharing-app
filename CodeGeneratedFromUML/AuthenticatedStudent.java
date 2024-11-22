@@ -1,50 +1,28 @@
-
-import java.io.*;
-import java.util.*;
-
-/**
- * 
- */
 public class AuthenticatedStudent extends User implements Observer {
-
-    /**
-     * Default constructor
-     */
-    public AuthenticatedStudent() {
-    }
-
-    /**
-     * 
-     */
     public ScoreManager scoreManager;
 
-    /**
-     * @return
-     */
+    public AuthenticatedStudent(Integer userId, String name, String email, String password) {
+        super(userId, name, email, password);
+        this.profile = new Profile(this); 
+    }
+
+
     public Profile getProfile() {
-        // TODO implement here
-        return null;
+        return profile;
     }
 
-    /**
-     * 
-     */
     public void requestProduct() {
-        // TODO implement here
+        System.out.println("Product requested by: " + this.getUserName());
     }
 
-    /**
-     * @param product
-     */
+
     public void postProduct(Product product) {
-        // TODO implement here
+        System.out.println("Product posted: " + product.getName() + " by " + this.getUserName());
     }
 
-    /**
-     * 
-     */
+    @Override
     public void update() {
-        // TODO implement Observer.update() here
+        System.out.println("ProductCatalog has been updated");
     }
 
 }

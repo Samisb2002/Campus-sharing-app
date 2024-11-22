@@ -1,68 +1,35 @@
-
-import java.io.*;
-import java.util.*;
-
-/**
- * 
- */
 public class User {
-
-    /**
-     * Default constructor
-     */
-    public User() {
-    }
-
-    /**
-     * 
-     */
     protected Integer userId;
 
-    /**
-     * 
-     */
     protected String name;
 
-    /**
-     * 
-     */
     protected String email;
 
-    /**
-     * 
-     */
     protected String password;
 
-    /**
-     * @return
-     */
+    public User(Integer userId, String name, String email, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public Integer getUserId() {
-        // TODO implement here
-        return null;
+        return userId;
     }
 
-    /**
-     * @return
-     */
     public String getUserName() {
-        // TODO implement here
-        return "";
+        return name;
     }
 
-    /**
-     * @return
-     */
+
     public String getUserEmail() {
-        // TODO implement here
-        return "";
+        return email;
     }
 
-    /**
-     * @return
-     */
+
     public String getPassword() {
-        // TODO implement here
-        return "";
+        return password;
     }
 
 }
