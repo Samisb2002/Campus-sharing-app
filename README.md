@@ -9,13 +9,6 @@ javac *.java
 java CampusSharingApp
 
 ```
-
-## Utilisation de l’application
-
-### Présentation générale
-- L’application génère une liste d’objets et de services fictifs au démarrage.
-- Vous devez d'abord vous enregistrer ou vous connecter pour utiliser l'application, car il n’y a pas de base de données.
-
 ### Fonctionnalités principales
 - **Emprunter un objet** : Affiche la liste des objets disponibles pour emprunt, en utilisant des points "bananes".
 - **Offrir un objet ou un service** : Vous pouvez proposer un nouvel objet ou un nouveau service, et en échange, vous recevez un point "banane".
