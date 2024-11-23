@@ -1,0 +1,9 @@
+productId,ownerId,productType,productName,productDesc,specificField,isAvailable
+1,1,service,Math Tutoring,Help with calculus,30,true
+4,4,service,maths courses,advanced maths,10,true
+5,5,service,Geography classes,Natgeo,10,true
+6,4,donation,HP Book,HP-1,Polytech,true
+7,4,donation,Book,HP,Polytech,false
+8,6,service,johnson,oil,888,true
+9,6,loan,bb,shh,2030-08-21,false
+10,7,service,lhachimi,good boy,89,false
