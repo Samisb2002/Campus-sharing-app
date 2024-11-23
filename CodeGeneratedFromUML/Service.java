@@ -1,17 +1,16 @@
 import java.time.LocalDate;
 
 public class Service extends Product {
+    private int duration;
 
-    private int duration; 
-    private Boolean isAvailable; 
-
-    public Service(int productId, AuthenticatedStudent owner, String productName, String productDesc, LocalDate postedDate, int duration) {
+    public Service(int productId, AuthenticatedStudent owner,
+                   String productName, String productDesc,
+                   LocalDate postedDate, int duration) {
         super(productId, owner, productName, productDesc);
         if (duration <= 0) {
             throw new IllegalArgumentException("Duration must be positive.");
         }
         this.duration = duration;
-        this.isAvailable = true;
     }
 
     public int getDuration() {
@@ -24,21 +23,11 @@ public class Service extends Product {
         }
         this.duration = duration;
     }
-    
-    public boolean getAvailibility(){
-        return this.isAvailable;
-    }
-    public void changeAvailibility(){
-        if(this.isAvailable){
-            this.isAvailable = false;
-        }
-        else{
-            this.isAvailable = true;
-        }
-    }
 
     // Updates service details
-    public void updateServiceDetails(String newProductName, String newProductDesc, int newDuration) {
+    public void updateServiceDetails(String newProductName,
+                                     String newProductDesc,
+                                     int newDuration) {
         if (newProductName != null && !newProductName.isEmpty()) {
             this.productName = newProductName;
         }
@@ -59,11 +48,15 @@ public class Service extends Product {
         System.out.println("Description: " + this.productDesc);
         System.out.println("Posted Date: " + this.postedDate);
         System.out.println("Duration: " + this.duration + " days");
+        System.out.println("Available: " + this.isAvailable);
     }
 
     @Override
     public String toString() {
-        return "Service [productId=" + this.productId + ", owner=" + this.owner.getUserName() + ", productName=" + this.productName
-                + ", productDesc=" + this.productDesc + ", postedDate=" + this.postedDate + ", duration=" + this.duration + "]";
+        return "Service [productId=" + this.productId + ", owner=" +
+               this.owner.getUserName() + ", productName=" +
+               this.productName + ", productDesc=" + this.productDesc +
+               ", postedDate=" + this.postedDate + ", duration=" +
+               this.duration + "]";
     }
 }
