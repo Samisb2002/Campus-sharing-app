@@ -32,5 +32,4 @@ public class Profile {
         System.out.println("=======================");
     }
 
-    // Optional: Methods to edit profile or other functionalities
 }

@@ -26,17 +26,17 @@ public class UserManager {
     }
 
     public void loadUsersFromCSV(String filename) {
-        this.usersCSVFile = filename; // Store filename
+        this.usersCSVFile = filename; 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             boolean firstLine = true;
             while ((line = br.readLine()) != null) {
-                // Skip empty lines
+                
                 if (line.trim().isEmpty()) {
                     continue;
                 }
                 if (firstLine) {
-                    firstLine = false; // Skip header
+                    firstLine = false; 
                     continue;
                 }
                 String[] fields = line.split(",");
