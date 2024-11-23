@@ -1,29 +1,36 @@
 public class Profile {
 
-    public AuthenticatedStudent owner;
+    private AuthenticatedStudent owner;
 
     public Profile(AuthenticatedStudent owner) {
-    this.owner = owner;
+        this.owner = owner;
     }
 
     public void displayProfile() {
-        System.out.println("Profile of: " + owner.getUserName());
+        System.out.println("\n===== Profile =====");
+        System.out.println("Name: " + owner.getUserName());
         System.out.println("Email: " + owner.getUserEmail());
         System.out.println("Banana Score: " + owner.scoreManager.getScore());
+
+        System.out.println("\n-- Posted Products --");
+        if (owner.postedProducts.isEmpty()) {
+            System.out.println("You have not posted any products.");
+        } else {
+            for (Product product : owner.postedProducts) {
+                System.out.println("- " + product.getName() + " (" + product.getClass().getSimpleName() + ")");
+            }
+        }
+
+        System.out.println("\n-- Requested Products --");
+        if (owner.requestedProducts.isEmpty()) {
+            System.out.println("You have not requested any products.");
+        } else {
+            for (Product product : owner.requestedProducts) {
+                System.out.println("- " + product.getName() + " (" + product.getClass().getSimpleName() + ")");
+            }
+        }
+        System.out.println("=======================");
     }
 
-    public void editProfile(String newName, String newEmail) {
-        owner.name = newName;
-        owner.email = newEmail;
-        System.out.println("Profile updated successfully.");
-    }
-
-    public void viewPostedItems() {
-        System.out.println("Viewing posted items...");
-    }
-
-    public void viewPostedServices() {
-        System.out.println("Viewing posted services...");
-    }
-
+    // Optional: Methods to edit profile or other functionalities
 }
