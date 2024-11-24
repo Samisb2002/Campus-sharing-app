@@ -63,7 +63,7 @@ public class ProductCatalog implements Subject {
                         case "service":
                             int duration = Integer.parseInt(specificField);
                             product = new Service(productId, owner, productName,
-                                                  productDesc, LocalDate.now(),
+                                                  productDesc,
                                                   duration);
                             break;
                         case "loan":

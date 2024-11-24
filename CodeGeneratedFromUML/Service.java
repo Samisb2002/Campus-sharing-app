@@ -1,11 +1,10 @@
-import java.time.LocalDate;
+
 
 public class Service extends Product {
     private int duration;
 
     public Service(int productId, AuthenticatedStudent owner,
-                   String productName, String productDesc,
-                   LocalDate postedDate, int duration) {
+                   String productName, String productDesc, int duration) {
         super(productId, owner, productName, productDesc);
         if (duration <= 0) {
             throw new IllegalArgumentException("Duration must be positive.");
