@@ -100,8 +100,7 @@ public class CampusSharingApp {
                                 int duration = scanner.nextInt();
                                 Service service = new Service(
                                     productCatalog.generateNewProductId(),
-                                    currentUser, productName, productDesc,
-                                    LocalDate.now(), duration);
+                                    currentUser, productName, productDesc, duration);
                                 currentUser.postProduct(service);
                                 productCatalog.addProduct(service);
                                 break;

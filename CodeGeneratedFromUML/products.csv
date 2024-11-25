@@ -7,3 +7,5 @@ productId,ownerId,productType,productName,productDesc,specificField,isAvailable
 8,6,service,johnson,oil,888,true
 9,6,loan,bb,shh,2030-08-21,false
 10,7,service,lhachimi,good boy,89,false
+
+11,8,donation,book by john doe,book about the life of john doe,campus annecy,true
