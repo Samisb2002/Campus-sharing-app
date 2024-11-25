@@ -95,40 +95,31 @@ public class CampusSharingApp {
 
                         switch (productType) {
                             case 1: // Service
-                                System.out.print("Enter Service Duration " +
-                                                 "(in days): ");
-                                int duration = scanner.nextInt();
-                                Service service = new Service(
-                                    productCatalog.generateNewProductId(),
-                                    currentUser, productName, productDesc, duration);
-                                currentUser.postProduct(service);
-                                productCatalog.addProduct(service);
-                                break;
+                            System.out.print("Enter Service Duration (in days): ");
+                            int duration = scanner.nextInt();
+                            scanner.nextLine(); 
+                            currentUser.postProduct(productCatalog.generateNewProductId(),
+                                productName, productDesc,
+                                "Service", duration);
+                                
+                            break;
 
                             case 2: // Loan
-                                System.out.print("Enter Return Date " +
-                                                 "(YYYY-MM-DD): ");
-                                String returnDateStr = scanner.nextLine();
-                                LocalDate returnDate = LocalDate.parse(
-                                    returnDateStr);
-                                Loan loan = new Loan(
-                                    productCatalog.generateNewProductId(),
-                                    currentUser, productName, productDesc,
-                                    returnDate);
-                                currentUser.postProduct(loan);
-                                productCatalog.addProduct(loan);
-                                break;
+                            System.out.print("Enter Return Date (YYYY-MM-DD): ");
+                            String returnDateStr = scanner.nextLine();
+                            LocalDate returnDate = LocalDate.parse(returnDateStr);
+                            currentUser.postProduct(productCatalog.generateNewProductId(), 
+                                productName, productDesc,
+                                "Loan",returnDate);
+                            break;
 
                             case 3: // Donation
-                                System.out.print("Enter Pickup Location: ");
-                                String pickupLocation = scanner.nextLine();
-                                Donation donation = new Donation(
-                                    productCatalog.generateNewProductId(),
-                                    currentUser, productName, productDesc,
-                                    pickupLocation);
-                                currentUser.postProduct(donation);
-                                productCatalog.addProduct(donation);
-                                break;
+                            System.out.print("Enter Pickup Location: ");
+                            String pickupLocation = scanner.nextLine();
+                            currentUser.postProduct(productCatalog.generateNewProductId(), 
+                                productName, productDesc,
+                                "Donation", pickupLocation);
+                            break;
 
                             default:
                                 System.out.println("Invalid product type.");

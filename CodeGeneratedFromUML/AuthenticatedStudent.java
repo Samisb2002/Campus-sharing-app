@@ -125,17 +125,21 @@ public class AuthenticatedStudent extends User implements Observer {
         }
     }
 
-    public void postProduct(Product product) {
-        System.out.println("Product posted: " + product.getName() + " by " +
-                           this.getUserName());
-        postedProducts.add(product);
-        CSVUtils.appendProductToCSV("products.csv", product);
-        CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId,
-                                        product.getProductId());
-        this.scoreManager.incrementScore();
-        System.out.println("Your Banana Score has increased!");
-        System.out.println("Your new Banana Score: " +
-                           this.scoreManager.getScore());
+    public void postProduct(int productId,String productName, String productDesc, String type, Object... additionalArgs) {
+    
+        Product product = ProductFactory.createProduct(type,productId, this,productName, productDesc, additionalArgs);
+
+        if (product != null) {
+            System.out.println("Product created and posted: " + product.getName() + " by " + this.getUserName());
+            postedProducts.add(product);
+            CSVUtils.appendProductToCSV("products.csv", product);
+            CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId, product.getProductId());
+            this.scoreManager.incrementScore();
+            System.out.println("Your Banana Score has increased!");
+            System.out.println("Your new Banana Score: " + this.scoreManager.getScore());
+        } else {
+            System.out.println("Failed to create the product. Please check the type and input parameters.");
+        }
     }
 
     @Override
