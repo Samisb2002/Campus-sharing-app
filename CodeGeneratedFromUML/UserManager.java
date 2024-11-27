@@ -1,3 +1,4 @@
+// UserManager.java
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -80,8 +81,7 @@ public class UserManager {
             newUserId, name, email, password);
         users.add(newUser);
         CSVUtils.appendUserToCSV(usersCSVFile, newUser);
-        System.out.println("User signed up successfully as an " +
-                           "AuthenticatedStudent.");
+        System.out.println("User signed up successfully as an AuthenticatedStudent.");
     }
 
     private int generateNewUserId() {
@@ -100,7 +100,7 @@ public class UserManager {
 
     public User getUserById(Integer userId) {
         for (User user : users) {
-            if (user.getUserId().equals(userId)) {
+            if (user.getUserId() == userId) {
                 return user;
             }
         }
@@ -110,21 +110,14 @@ public class UserManager {
     public void saveUsersToCSV() {
         try (BufferedWriter bw = new BufferedWriter(
                 new FileWriter(usersCSVFile))) {
-            // Write header
             bw.write("userId,name,email,password,bananaScore");
-
-            // Write user data
             for (User user : users) {
                 if (user instanceof AuthenticatedStudent) {
                     AuthenticatedStudent student = (AuthenticatedStudent) user;
                     bw.newLine();
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(student.getUserId()).append(",");
-                    sb.append(student.getUserName()).append(",");
-                    sb.append(student.getUserEmail()).append(",");
-                    sb.append(student.getPassword()).append(",");
-                    sb.append(student.scoreManager.getScore());
-                    bw.write(sb.toString());
+                    bw.write(student.getUserId() + "," + student.getUserName() + "," +
+                             student.getUserEmail() + "," + student.getPassword() + "," +
+                             student.scoreManager.getScore());
                 }
             }
         } catch (IOException e) {

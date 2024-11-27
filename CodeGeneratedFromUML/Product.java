@@ -1,3 +1,4 @@
+// Product.java
 import java.time.LocalDate;
 
 public abstract class Product {
@@ -6,7 +7,7 @@ public abstract class Product {
     protected String productName;
     protected String productDesc;
     protected LocalDate postedDate;
-    protected boolean isAvailable; // New field
+    protected boolean isAvailable;
 
     public Product(int productId, AuthenticatedStudent owner,
                    String productName, String productDesc) {
@@ -15,18 +16,16 @@ public abstract class Product {
         if (owner == null)
             throw new IllegalArgumentException("Owner cannot be null.");
         if (productName == null || productName.isEmpty())
-            throw new IllegalArgumentException("Product name cannot be null " +
-                                               "or empty.");
+            throw new IllegalArgumentException("Product name cannot be null or empty.");
         if (productDesc == null || productDesc.isEmpty())
-            throw new IllegalArgumentException("Product description cannot " +
-                                               "be null or empty.");
+            throw new IllegalArgumentException("Product description cannot be null or empty.");
 
         this.productId = productId;
         this.owner = owner;
         this.productName = productName;
         this.productDesc = productDesc;
         this.postedDate = LocalDate.now();
-        this.isAvailable = true; // Default to true
+        this.isAvailable = true;
     }
 
     public int getProductId() {
@@ -58,4 +57,6 @@ public abstract class Product {
     }
 
     public abstract void viewDetails();
+
+    public abstract String toCSVString();
 }

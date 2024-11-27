@@ -1,19 +1,27 @@
+// ProductCatalog.java
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCatalog implements Subject {
+    private static ProductCatalog instance;
     private List<Product> allProducts;
     private List<Product> availableProducts;
     private List<Observer> observers;
 
-    public ProductCatalog() {
+    private ProductCatalog() {
         allProducts = new ArrayList<>();
         availableProducts = new ArrayList<>();
         observers = new ArrayList<>();
+    }
+
+    public static synchronized ProductCatalog getInstance() {
+        if (instance == null) {
+            instance = new ProductCatalog();
+        }
+        return instance;
     }
 
     public List<Product> getProducts() {
@@ -36,7 +44,7 @@ public class ProductCatalog implements Subject {
             boolean firstLine = true;
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Skip header line
+                    firstLine = false;
                     continue;
                 }
                 String[] fields = line.split(",");
@@ -53,41 +61,18 @@ public class ProductCatalog implements Subject {
                         userManager.getUserById(ownerId);
 
                     if (owner == null) {
-                        System.out.println("Owner with ID " + ownerId +
-                                           " not found.");
                         continue;
                     }
 
-                    Product product = null;
-                    switch (productType.toLowerCase()) {
-                        case "service":
-                            int duration = Integer.parseInt(specificField);
-                            product = new Service(productId, owner, productName,
-                                                  productDesc,
-                                                  duration);
-                            break;
-                        case "loan":
-                            LocalDate returnDate = LocalDate.parse(
-                                specificField);
-                            product = new Loan(productId, owner, productName,
-                                               productDesc, returnDate);
-                            break;
-                        case "donation":
-                            String pickupLocation = specificField;
-                            product = new Donation(productId, owner,
-                                                   productName, productDesc,
-                                                   pickupLocation);
-                            break;
-                        default:
-                            System.out.println("Unknown product type: " +
-                                               productType);
-                            continue;
-                    }
-
-                    product.setAvailable(isAvailable);
-                    allProducts.add(product);
-                    if (isAvailable) {
-                        availableProducts.add(product);
+                    Product product = ProductFactory.createProduct(
+                        productType, productId, owner, productName, productDesc, specificField);
+                    
+                    if (product != null) {
+                        product.setAvailable(isAvailable);
+                        allProducts.add(product);
+                        if (isAvailable) {
+                            availableProducts.add(product);
+                        }
                     }
                 }
             }
@@ -120,7 +105,6 @@ public class ProductCatalog implements Subject {
         if (product.isAvailable()) {
             availableProducts.add(product);
         }
-        System.out.println("Product added: " + product.getName());
         notifyObservers();
     }
 
@@ -161,12 +145,10 @@ public class ProductCatalog implements Subject {
 
     public void viewAvailableProducts() {
         System.out.println("\nAvailable Products:");
-        System.out.println("------------------------------------------------" +
-                           "----------------");
+        System.out.println("----------------------------------------------------------------");
         System.out.printf("%-5s %-10s %-15s %-20s %-30s%n", "ID", "Type",
                           "Owner", "Name", "Description");
-        System.out.println("------------------------------------------------" +
-                           "----------------");
+        System.out.println("----------------------------------------------------------------");
         for (Product product : availableProducts) {
             String type = product.getClass().getSimpleName();
             System.out.printf("%-5d %-10s %-15s %-20s %-30s%n",

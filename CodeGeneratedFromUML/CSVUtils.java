@@ -12,125 +12,157 @@ public class CSVUtils {
             File file = new File(filename);
             boolean fileExists = file.exists() && file.length() > 0;
 
-            try (BufferedWriter bw = new BufferedWriter(
-                    new FileWriter(file, true))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
 
                 if (!fileExists) {
-                    // Write header if file doesn't exist or is empty
                     bw.write("productId,ownerId,productType,productName," +
                              "productDesc,specificField,isAvailable");
                 }
 
-                // Always add a newline before writing data
                 bw.newLine();
 
-                StringBuilder sb = new StringBuilder();
-                sb.append(product.getProductId()).append(",");
-                sb.append(product.getOwner().getUserId()).append(",");
-                String productType = product.getClass()
-                                            .getSimpleName().toLowerCase();
-                sb.append(productType).append(",");
-                sb.append(product.getName()).append(",");
-                sb.append(product.getDescription()).append(",");
-
-                if (product instanceof Service) {
-                    Service service = (Service) product;
-                    sb.append(service.getDuration());
-                } else if (product instanceof Loan) {
-                    Loan loan = (Loan) product;
-                    sb.append(loan.getReturnDate());
-                } else if (product instanceof Donation) {
-                    Donation donation = (Donation) product;
-                    sb.append(donation.getPickupLocation());
-                }
-
-                sb.append(",").append(product.isAvailable());
-
-                bw.write(sb.toString());
+                bw.write(product.toCSVString());
             }
         } catch (IOException e) {
-            System.out.println("Error writing to products CSV: " +
-                               e.getMessage());
+            System.out.println("Error writing to products CSV: " + e.getMessage());
         }
     }
 
-    public static void appendUserToCSV(String filename,
-                                       AuthenticatedStudent user) {
+    public static void appendUserToCSV(String filename, AuthenticatedStudent user) {
         try {
             File file = new File(filename);
             boolean fileExists = file.exists() && file.length() > 0;
 
-            try (BufferedWriter bw = new BufferedWriter(
-                    new FileWriter(file, true))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
 
                 if (!fileExists) {
-                    // Write header if file doesn't exist or is empty
                     bw.write("userId,name,email,password,bananaScore");
                 }
 
-                // Always add a newline before writing data
                 bw.newLine();
 
-                StringBuilder sb = new StringBuilder();
-                sb.append(user.getUserId()).append(",");
-                sb.append(user.getUserName()).append(",");
-                sb.append(user.getUserEmail()).append(",");
-                sb.append(user.getPassword()).append(",");
-                sb.append(user.scoreManager.getScore());
-
-                bw.write(sb.toString());
+                bw.write(user.getUserId() + "," + user.getUserName() + "," +
+                         user.getUserEmail() + "," + user.getPassword() + "," +
+                         user.scoreManager.getScore());
             }
         } catch (IOException e) {
-            System.out.println("Error writing to users CSV: " +
-                               e.getMessage());
+            System.out.println("Error writing to users CSV: " + e.getMessage());
         }
     }
 
-    public static void appendUserProductToCSV(String filename, int userId,
-                                              int productId) {
+    public static void appendUserProductToCSV(String filename, int userId, int productId) {
         try {
             File file = new File(filename);
             boolean fileExists = file.exists() && file.length() > 0;
 
-            try (BufferedWriter bw = new BufferedWriter(
-                    new FileWriter(file, true))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
 
                 if (!fileExists) {
-                    // Write header if file doesn't exist or is empty
                     bw.write("userId,productId");
                 }
 
-                // Always add a newline before writing data
                 bw.newLine();
 
                 bw.write(userId + "," + productId);
             }
         } catch (IOException e) {
-            System.out.println("Error writing to " + filename + ": " +
-                               e.getMessage());
+            System.out.println("Error writing to " + filename + ": " + e.getMessage());
         }
     }
 
-    public static void updateProductAvailabilityInCSV(String filename,
-                                                      int productId,
-                                                      boolean isAvailable) {
+    public static Product getProductById(String filename, int productId) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            boolean firstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
+                }
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+                String[] fields = line.split(",");
+                if (fields.length >= 7) {
+                    int currentProductId = Integer.parseInt(fields[0].trim());
+                    if (currentProductId == productId) {
+                        String productType = fields[2].trim();
+                        String productName = fields[3].trim();
+                        String productDesc = fields[4].trim();
+                        String specificField = fields[5].trim();
+                        boolean isAvailable = Boolean.parseBoolean(fields[6].trim());
+
+                        AuthenticatedStudent owner = (AuthenticatedStudent) UserManager.getInstance().getUserById(Integer.parseInt(fields[1].trim()));
+                        if (owner == null) {
+                            return null;
+                        }
+
+                        Product product = ProductFactory.createProduct(productType, productId, owner, productName, productDesc, specificField);
+                        if (product != null) {
+                            product.setAvailable(isAvailable);
+                            return product;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading products CSV: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static Product getProductByName(String filename, String productName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            boolean firstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
+                }
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+                String[] fields = line.split(",");
+                if (fields.length >= 7) {
+                    String currentProductName = fields[3].trim();
+                    if (currentProductName.equalsIgnoreCase(productName)) {
+                        int productId = Integer.parseInt(fields[0].trim());
+                        String productType = fields[2].trim();
+                        String productDesc = fields[4].trim();
+                        String specificField = fields[5].trim();
+                        boolean isAvailable = Boolean.parseBoolean(fields[6].trim());
+
+                        AuthenticatedStudent owner = (AuthenticatedStudent) UserManager.getInstance().getUserById(Integer.parseInt(fields[1].trim()));
+                        if (owner == null) {
+                            return null;
+                        }
+
+                        Product product = ProductFactory.createProduct(productType, productId, owner, currentProductName, productDesc, specificField);
+                        if (product != null) {
+                            product.setAvailable(isAvailable);
+                            return product;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading products CSV: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static void updateProductAvailabilityInCSV(String filename, int productId, boolean isAvailable) {
         File inputFile = new File(filename);
         File tempFile = new File("products_temp.csv");
 
-        try (BufferedReader reader = new BufferedReader(
-                 new FileReader(inputFile));
-             BufferedWriter writer = new BufferedWriter(
-                 new FileWriter(tempFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
             String currentLine;
             boolean firstLine = true;
 
             while ((currentLine = reader.readLine()) != null) {
-                // Skip empty lines
-                if (currentLine.trim().isEmpty()) {
-                    continue;
-                }
-
                 if (firstLine) {
                     writer.write(currentLine);
                     writer.newLine();
@@ -138,31 +170,18 @@ public class CSVUtils {
                     continue;
                 }
 
+                if (currentLine.trim().isEmpty()) {
+                    continue;
+                }
+
                 String[] fields = currentLine.split(",");
 
-                // Check if the line has at least 7 fields
                 if (fields.length < 7) {
-                    System.out.println("Skipping malformed line: " +
-                                       currentLine);
+                    System.out.println("Skipping malformed line: " + currentLine);
                     continue;
                 }
 
-                String productIdStr = fields[0].trim();
-
-                if (productIdStr.isEmpty()) {
-                    System.out.println("Skipping line with empty productId: " +
-                                       currentLine);
-                    continue;
-                }
-
-                int currentProductId;
-                try {
-                    currentProductId = Integer.parseInt(productIdStr);
-                } catch (NumberFormatException e) {
-                    System.out.println("Skipping line with invalid productId: " +
-                                       currentLine);
-                    continue;
-                }
+                int currentProductId = Integer.parseInt(fields[0].trim());
 
                 if (currentProductId == productId) {
                     fields[6] = String.valueOf(isAvailable);
@@ -174,11 +193,9 @@ public class CSVUtils {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error updating products CSV: " +
-                               e.getMessage());
+            System.out.println("Error updating products CSV: " + e.getMessage());
         }
 
-        // Replace original file with the updated file
         if (!inputFile.delete()) {
             System.out.println("Could not delete original products CSV file");
             return;

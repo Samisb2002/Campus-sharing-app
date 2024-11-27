@@ -1,18 +1,18 @@
-public class User {
-    protected Integer userId;
+// User.java
+public abstract class User {
+    protected int userId;
     protected String name;
     protected String email;
     protected String password;
 
-    public User(Integer userId, String name, String email,
-                String password) {
+    public User(int userId, String name, String email, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 

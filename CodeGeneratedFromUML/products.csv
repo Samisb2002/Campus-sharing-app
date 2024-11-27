@@ -2,10 +2,11 @@ productId,ownerId,productType,productName,productDesc,specificField,isAvailable
 1,1,service,Math Tutoring,Help with calculus,30,true
 4,4,service,maths courses,advanced maths,10,true
 5,5,service,Geography classes,Natgeo,10,true
-6,4,donation,HP Book,HP-1,Polytech,true
+6,4,donation,HP Book,HP-1,Polytech,false
 7,4,donation,Book,HP,Polytech,false
 8,6,service,johnson,oil,888,true
 9,6,loan,bb,shh,2030-08-21,false
 10,7,service,lhachimi,good boy,89,false
 11,8,donation,book by john doe,book about the life of john doe,campus annecy,true
 12,8,loan,laptop HP,laptop in good condition ,2024-12-31,true
+13,6,Loan,LAPTOP,acer,2025-01-18,true
