@@ -6,7 +6,7 @@ productId,ownerId,productType,productName,productDesc,specificField,isAvailable
 7,4,donation,Book,HP,Polytech,false
 8,6,service,johnson,oil,888,true
 9,6,loan,bb,shh,2030-08-21,false
-10,7,service,lhachimi,good boy,89,false
+10,7,service,LLM,good LLM,89,false
 11,8,donation,book by john doe,book about the life of john doe,campus annecy,true
 12,8,loan,laptop HP,laptop in good condition ,2024-12-31,true
 13,6,Loan,LAPTOP,acer,2025-01-18,true
