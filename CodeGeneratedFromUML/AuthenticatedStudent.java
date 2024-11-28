@@ -90,14 +90,16 @@ public class AuthenticatedStudent extends User implements Observer {
 
     public void requestProduct(String productName) {
         Product requestedProduct = CSVUtils.getProductByName("products.csv", productName);
+    
         if (requestedProduct != null && requestedProduct.isAvailable()) {
             if (this.scoreManager.getScore() > 0) {
-                CSVUtils.updateProductAvailabilityInCSV("products.csv",
-                                                        requestedProduct.getProductId(),
-                                                        false);
+                ProductCatalog.getInstance().updateProductAvailability(requestedProduct, false);
+    
                 requestedProducts.add(requestedProduct);
-                CSVUtils.appendUserProductToCSV(requestedProductsFile,
-                    this.userId, requestedProduct.getProductId());
+    
+                
+                CSVUtils.appendUserProductToCSV(requestedProductsFile, this.userId, requestedProduct.getProductId());
+    
                 this.scoreManager.decrementScore();
                 System.out.println("You have successfully requested the product: " + requestedProduct.getName());
                 System.out.println("Your new Banana Score: " + this.scoreManager.getScore());
@@ -108,31 +110,36 @@ public class AuthenticatedStudent extends User implements Observer {
             System.out.println("Product not found or not available.");
         }
     }
+    
 
     public void postProduct(int productId, String productName, String productDesc, String type, Object... additionalArgs) {
-    Object specificField = additionalArgs[0];
-
-    // Convert non-String types to String
-    if (specificField instanceof LocalDate) {
-        specificField = specificField.toString(); // Convert LocalDate to String
-    } else if (specificField instanceof Integer) {
-        specificField = String.valueOf(specificField); // Convert Integer to String
+        Object specificField = additionalArgs[0];
+    
+        // Convert non-String types to String
+        if (specificField instanceof LocalDate) {
+            specificField = specificField.toString(); // Convert LocalDate to String
+        } else if (specificField instanceof Integer) {
+            specificField = String.valueOf(specificField); // Convert Integer to String
+        }
+    
+        // Create the product using the factory
+        Product product = ProductFactory.createProduct(type, productId, this, productName, productDesc, specificField);
+    
+        if (product != null) {
+            System.out.println("Product created and posted: " + product.getName() + " by " + this.getUserName());
+            
+            ProductCatalog.getInstance().addProduct(product);
+            
+            CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId, product.getProductId());
+            
+            this.scoreManager.incrementScore();
+            System.out.println("Your Banana Score has increased!");
+            System.out.println("Your new Banana Score: " + this.scoreManager.getScore());
+        } else {
+            System.out.println("Failed to create the product. Please check the type and input parameters.");
+        }
     }
-
-    Product product = ProductFactory.createProduct(type, productId, this, productName, productDesc, specificField);
-
-    if (product != null) {
-        System.out.println("Product created and posted: " + product.getName() + " by " + this.getUserName());
-        postedProducts.add(product);
-        CSVUtils.appendProductToCSV("products.csv", product);
-        CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId, product.getProductId());
-        this.scoreManager.incrementScore();
-        System.out.println("Your Banana Score has increased!");
-        System.out.println("Your new Banana Score: " + this.scoreManager.getScore());
-    } else {
-        System.out.println("Failed to create the product. Please check the type and input parameters.");
-    }
-}
+    
 
 
     @Override
