@@ -135,10 +135,16 @@ public class AuthenticatedStudent extends User implements Observer {
         if (product != null) {
             System.out.println("Product created and posted: " + product.getName() + " by " + this.getUserName());
             
+            // Add the product to the ProductCatalog
             ProductCatalog.getInstance().addProduct(product);
-            
-            CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId, product.getProductId());
-            
+    
+            // Persist the product to products.csv
+            CSVUtils.appendProductToCSV("products.csv", product);
+    
+            // Link the product to the user in the postedProductsFile
+            CSVUtils.appendUserProductToCSV(postedProductsFile, this.userId, product.getProductId());           
+            postedProducts.add(product);
+            // Update the Banana Score
             this.scoreManager.incrementScore();
             System.out.println("Your Banana Score has increased!");
             System.out.println("Your new Banana Score: " + this.scoreManager.getScore());
@@ -146,6 +152,7 @@ public class AuthenticatedStudent extends User implements Observer {
             System.out.println("Failed to create the product. Please check the type and input parameters.");
         }
     }
+    
     
 
 

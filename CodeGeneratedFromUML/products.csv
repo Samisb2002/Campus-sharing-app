@@ -8,5 +8,18 @@ productId,ownerId,productType,productName,productDesc,specificField,isAvailable
 9,6,loan,bb,shh,2030-08-21,false
 10,7,service,LLM,good LLM,89,false
 11,8,donation,book by john doe,book about the life of john doe,campus annecy,true
-12,8,loan,laptop HP,laptop in good condition ,2024-12-31,true
-13,6,Loan,LAPTOP,acer,2025-01-18,true
+12,8,loan,laptop HP,laptop in good condition ,2024-12-31,false
+13,6,Loan,LAPTOP,acer,2025-01-18,false
+14,10,Service,Physics,Meca,5,false
+15,10,Loan,AIRFRYER,Fries,2025-06-12,false
+16,10,Service,Cours,Maths,10,true
+17,2,Service,Book,Python,10,true
+18,2,Donation,Book,Maths,Polytech,true
+19,2,Loan,laptop,Acer,2025-06-01,true
+20,1,Service,cours,python,5,true
+21,14,Service,Cours,pc,8,true
+22,15,Service,cours,meca,5,true
+23,15,Loan,ipad,apple,2025-01-16,false
+24,16,Service,aide scolaire,maths,30,true
+25,16,Service,aide,scolaire,30,true
+26,9,Service,Cours,Maths,20,true
