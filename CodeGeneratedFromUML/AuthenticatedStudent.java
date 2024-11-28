@@ -7,87 +7,93 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthenticatedStudent extends User implements Observer {
+    // Attributs de la classe
     public ScoreManager scoreManager;
     private Profile profile;
-    public List<Product> postedProducts = new ArrayList<>();
-    public List<Product> requestedProducts = new ArrayList<>();
+    public List<Product> postedProducts = new ArrayList<>(); // Liste des produits publiés par l'utilisateur
+    public List<Product> requestedProducts = new ArrayList<>(); // Liste des produits demandés par l'utilisateur
 
+    // Fichiers de produits
     private String postedProductsFile = "user_posted_products.csv";
     private String requestedProductsFile = "user_requested_products.csv";
 
+    // Constructeur de la classe AuthenticatedStudent
     public AuthenticatedStudent(Integer userId, String name, String email,
                                 String password) {
-        super(userId, name, email, password);
-        this.profile = new Profile(this);
-        this.scoreManager = new ScoreManager();
+        super(userId, name, email, password); // Appel au constructeur de la classe parente User
+        this.profile = new Profile(this); // Initialisation du profil
+        this.scoreManager = new ScoreManager(); // Initialisation du gestionnaire de scores
     }
 
+    // Getter pour le profil de l'utilisateur
     public Profile getProfile() {
         return profile;
     }
 
+    // Méthode pour charger les produits de l'utilisateur
     public void loadUserProducts() {
-        // Load posted products
+        // Charger les produits publiés
         try (BufferedReader br = new BufferedReader(
-                new FileReader(postedProductsFile))) {
+                new FileReader(postedProductsFile))) { // Lecture du fichier des produits publiés
             String line;
-            boolean firstLine = true;
+            boolean firstLine = true; // Pour ignorer la première ligne (en-tête)
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) {
-                    continue;
+                    continue; // Ignore les lignes vides
                 }
                 if (firstLine) {
                     firstLine = false;
-                    continue;
+                    continue; // Ignore la première ligne (en-tête)
                 }
-                String[] fields = line.split(",");
+                String[] fields = line.split(","); // Séparation des champs
                 if (fields.length == 2) {
                     int userId = Integer.parseInt(fields[0].trim());
                     int productId = Integer.parseInt(fields[1].trim());
-                    if (userId == this.userId) {
-                        Product product = CSVUtils.getProductById("products.csv", productId);
+                    if (userId == this.userId) { // Vérifie si l'utilisateur correspond à celui actuel
+                        Product product = CSVUtils.getProductById("products.csv", productId); // Récupère le produit par ID
                         if (product != null) {
-                            postedProducts.add(product);
+                            postedProducts.add(product); // Ajoute le produit à la liste
                         }
                     }
                 }
             }
         } catch (IOException e) {
             System.out.println("Error loading posted products: " +
-                               e.getMessage());
+                               e.getMessage()); // Gère les erreurs de lecture du fichier
         }
 
-        // Load requested products
+        // Charger les produits demandés
         try (BufferedReader br = new BufferedReader(
-                new FileReader(requestedProductsFile))) {
+                new FileReader(requestedProductsFile))) { // Lecture du fichier des produits demandés
             String line;
-            boolean firstLine = true;
+            boolean firstLine = true; // Pour ignorer la première ligne (en-tête)
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) {
-                    continue;
+                    continue; // Ignore les lignes vides
                 }
                 if (firstLine) {
                     firstLine = false;
-                    continue;
+                    continue; // Ignore la première ligne (en-tête)
                 }
-                String[] fields = line.split(",");
+                String[] fields = line.split(","); // Séparation des champs
                 if (fields.length == 2) {
                     int userId = Integer.parseInt(fields[0].trim());
                     int productId = Integer.parseInt(fields[1].trim());
-                    if (userId == this.userId) {
-                        Product product = CSVUtils.getProductById("products.csv", productId);
+                    if (userId == this.userId) { // Vérifie si l'utilisateur correspond à celui actuel
+                        Product product = CSVUtils.getProductById("products.csv", productId); // Récupère le produit par ID
                         if (product != null) {
-                            requestedProducts.add(product);
+                            requestedProducts.add(product); // Ajoute le produit à la liste
                         }
                     }
                 }
             }
         } catch (IOException e) {
             System.out.println("Error loading requested products: " +
-                               e.getMessage());
+                               e.getMessage()); // Gère les erreurs de lecture du fichier
         }
     }
 
+    // Méthode pour demander un produit
     public void requestProduct(String productName) {
         Product requestedProduct = CSVUtils.getProductByName("products.csv", productName);
     
@@ -112,6 +118,7 @@ public class AuthenticatedStudent extends User implements Observer {
     }
     
 
+    // Méthode pour publier un produit
     public void postProduct(int productId, String productName, String productDesc, String type, Object... additionalArgs) {
         Object specificField = additionalArgs[0];
     
@@ -145,6 +152,6 @@ public class AuthenticatedStudent extends User implements Observer {
     @Override
     public void update() {
         System.out.println("\n[Notification] Dear " + this.getUserName() +
-                           ", the product catalog has been updated!");
+                           ", the product catalog has been updated!"); // Notifie l'utilisateur d'une mise à jour du catalogue
     }
 }
