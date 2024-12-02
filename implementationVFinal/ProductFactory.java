@@ -1,5 +1,9 @@
 import java.time.LocalDate;
 
+// Bien, il aurait (idéalement) fallu rajouter une interface factory afin de pouvoir accueillir de nouvelles
+// factory concrètes comme celle de ce fichier.
+// voir https://moodle.univ-smb.fr/pluginfile.php/111840/mod_resource/content/1/INFO732_CM2_DesignPatterns_2020.pdf pages 25-31
+
 public class ProductFactory {
     // Méthode statique pour créer un produit en fonction de son type
     public static Product createProduct(String type, int productId, AuthenticatedStudent owner, String productName, String productDesc, Object... additionalArgs) {

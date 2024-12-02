@@ -25,6 +25,7 @@ public class ProductCatalog implements Subject {
         observers = new ArrayList<>();
     }
 
+    // Singleton très bien
     // Méthode pour obtenir l'instance unique de ProductCatalog (Singleton)
     public static synchronized ProductCatalog getInstance() {
         if (instance == null) {
@@ -100,6 +101,8 @@ public class ProductCatalog implements Subject {
                                e.getMessage());
         }
     }
+
+    // Pattern observer parfait.
 
     // Implémentation de l'interface Observer : inscrire un observateur
     @Override
