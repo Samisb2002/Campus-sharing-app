@@ -18,6 +18,7 @@ public class CampusSharingApp {
         boolean exit = false; // Contrôle de la boucle principale
         AuthenticatedStudent currentUser = null; // Utilisateur authentifié actuel
 
+        // Ça aurait pu être coupé en plusieurs fonctions :)
         // Boucle principale de l'application
         while (!exit) {
             System.out.println("\n========== Campus Sharing App ==========");

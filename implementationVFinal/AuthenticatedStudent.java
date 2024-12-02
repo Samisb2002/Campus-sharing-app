@@ -30,6 +30,7 @@ public class AuthenticatedStudent extends User implements Observer {
         return profile;
     }
 
+    // Cette fonction aurait pu être dans la classe CSVUtils
     // Méthode pour charger les produits de l'utilisateur
     public void loadUserProducts() {
         // Charger les produits publiés
@@ -93,6 +94,7 @@ public class AuthenticatedStudent extends User implements Observer {
         }
     }
 
+    // Cohérent avec le diagramme de séquence
     // Méthode pour demander un produit
     public void requestProduct(String productName) {
         Product requestedProduct = CSVUtils.getProductByName("products.csv", productName);

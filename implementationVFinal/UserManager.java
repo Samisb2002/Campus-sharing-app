@@ -19,6 +19,7 @@ public class UserManager {
     // Constructeur privé pour empêcher la création d'instances directement
     private UserManager() {}
 
+    // Singleton très bien
     // Méthode pour récupérer l'instance unique de UserManager (singleton)
     public static UserManager getInstance() {
         if (instance == null) {
